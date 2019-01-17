@@ -1,0 +1,25 @@
+version: '3.1'
+
+services:
+  db:
+    image: mysql:5.5
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: znn_data 
+      MYSQL_USER: znn
+      MYSQL_PASSWORD: znn_pass
+
+  znn-faster:
+    image: cmendes/znn-web1
+    restart: always
+    ports: 
+      - "1080:80"
+    environment:
+      DB_USER: znn
+      DB_PASS: znn_pass
+      DB_NAME: znn_data
+      DB_HOST: db
+      DB_PORT: 3306
+      SLEEP_TIME: 0
+      FIDELITY: high
