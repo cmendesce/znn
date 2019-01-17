@@ -9,17 +9,11 @@
 
 <?php
 
-$server_port = $_SERVER["SERVER_PORT"];
-$server_ip = $_SERVER["SERVER_ADDR"];
-
 if ($sleep != 0) {
 	sleep($sleep);
 }
 
 $result = query("SELECT COUNT(1) FROM news;");
-if (!$result) {
-	die("Execute query error, because: ". print_r($pdo->errorInfo(), true));
-}
 $row = $result->fetch();
 $news_count = $row[0];
 
@@ -36,6 +30,7 @@ echo "
 	<article>$news_text</article>
 	<hr>";
 
+$fidelity = resolve_fidelity();
 if ($fidelity == "text") {
 	echo "<p>No images served in text fidelity mode.</p>";
 } else {
@@ -53,17 +48,16 @@ if ($fidelity == "text") {
 	}
 }
 
-#
-# Print the footer with some diagnostic information.
-#
+$server_port = $_SERVER["SERVER_PORT"];
+$server_ip = $_SERVER["SERVER_ADDR"];
 echo "<hr>
 	<p>
-		<small>ZNN fake news service. Server by $server_ip:$server_port. </small>
-		<small>Fideliy level <b>$fidelity</b>. Specified by env var 'FIDELITY'. If not set, default is high</small>
+		<small>ZNN news service. Server by $server_ip:$server_port. </small>
+		<br />
+		<small>Fideliy level: <b>$fidelity</b>. Specified by env var 'FIDELITY' or 'FIDELITY_FILE'. If not set, default is high</small>
 	</p>
 	<p>
-		<small>Total news in database: $news_count. Printing news $news_index
-		with ID $news_id (news has $news_img_cnt images).</small>
+		<small>Total news in database: $news_count. Printing news with ID $news_id (news has $news_img_cnt images).</small>
 	</p>
 	";
 ?>

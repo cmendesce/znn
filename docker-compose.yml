@@ -4,6 +4,8 @@ services:
   db:
     image: mysql:5.5
     restart: always
+    ports:
+      - 3306:3306
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: znn_data 
@@ -11,7 +13,7 @@ services:
       MYSQL_PASSWORD: znn_pass
 
   znn-faster:
-    image: cmendes/znn-web1
+    image: cmendes/znn-web
     restart: always
     ports: 
       - "1080:80"

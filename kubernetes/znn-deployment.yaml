@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: znn
+  labels:
+    app: znn
+spec:
+  selector:
+    matchLabels:
+      app: znn
+      tier: frontend
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: znn
+        tier: frontend
+    spec:
+      containers:
+      - image: cmendes/znn-web:latest
+        name: znn
+        env:
+        - name: DB_HOST
+          value: "znn-db"
+        - name: DB_PORT
+          value: "3306"
+        - name: DB_NAME
+          value: "znn_data"
+        - name: DB_USER
+          value: "znn"
+        - name: DB_PASS
+          valueFrom:
+            secretKeyRef:
+              name: mysql-pass
+              key: password
+        ports:
+        - containerPort: 80
+          name: znn
