@@ -1,7 +1,7 @@
 <?php
 
 require 'vendor/autoload.php';
-if (file_exists(__DIR__ . '.env')) {
+if (file_exists(__DIR__ . '/.env')) {
 	$dotenv = Dotenv\Dotenv::create(__DIR__);
 	$dotenv->load();
 }
@@ -14,8 +14,8 @@ $db_port = getenv("DB_PORT");
 $sleep = getenv("SLEEP_TIME") ?: 0;
 $fidelity = getenv("FIDELITY") ?: "high";
 $fidelity_file = getenv("FIDELITY_FILE");
-$conn = "mysql:host=$db_host;port=$db_port;dbname=$db_name";
 
+$conn = "mysql:host=$db_host;port=$db_port;dbname=$db_name";
 $pdo = new PDO($conn, $db_username, $db_password);
 
 function query ($stm) {

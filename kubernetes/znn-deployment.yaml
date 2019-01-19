@@ -10,7 +10,10 @@ spec:
       app: znn
       tier: frontend
   strategy:
-    type: Recreate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+    type: RollingUpdate
   template:
     metadata:
       labels:
@@ -18,9 +21,11 @@ spec:
         tier: frontend
     spec:
       containers:
-      - image: cmendes/znn-web:latest
+      - image: cmendes/znn:high
         name: znn
         env:
+        #- name: FIDELITY_FILE
+        #  value: "/var/www/html/fidelity.txt"
         - name: DB_HOST
           value: "znn-db"
         - name: DB_PORT
@@ -37,3 +42,10 @@ spec:
         ports:
         - containerPort: 80
           name: znn
+        volumeMounts:
+        - mountPath: "/var/www/html/"
+          name: znn-pv-storage
+      volumes:
+      - name: znn-pv-storage
+        persistentVolumeClaim:
+          claimName: znn-pv-claim

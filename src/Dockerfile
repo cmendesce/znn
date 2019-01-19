@@ -15,4 +15,7 @@ ADD composer.json .
 ADD composer.lock .
 RUN composer install 
 
+ARG BUILDTIME_FIDELITY
+ENV FIDELITY=$BUILDTIME_FIDELITY
+
 ADD . .

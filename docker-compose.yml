@@ -6,14 +6,16 @@ services:
     restart: always
     ports:
       - 3306:3306
+    volumes:
+      - ./src/db:/docker-entrypoint-initdb.d
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: znn_data 
       MYSQL_USER: znn
       MYSQL_PASSWORD: znn_pass
-
-  znn-faster:
-    image: cmendes/znn-web
+      
+  znn-high:
+    image: cmendes/znn:high
     restart: always
     ports: 
       - "1080:80"
@@ -23,5 +25,27 @@ services:
       DB_NAME: znn_data
       DB_HOST: db
       DB_PORT: 3306
-      SLEEP_TIME: 0
-      FIDELITY: high
+
+  znn-text:
+    image: cmendes/znn:text
+    restart: always
+    ports: 
+      - "1081:80"
+    environment:
+      DB_USER: znn
+      DB_PASS: znn_pass
+      DB_NAME: znn_data
+      DB_HOST: db
+      DB_PORT: 3306
+  
+  znn-low:
+    image: cmendes/znn:low
+    restart: always
+    ports: 
+      - "1082:80"
+    environment:
+      DB_USER: znn
+      DB_PASS: znn_pass
+      DB_NAME: znn_data
+      DB_HOST: db
+      DB_PORT: 3306
