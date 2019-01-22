@@ -1,9 +1,11 @@
 <?php
 
-require 'vendor/autoload.php';
-if (file_exists(__DIR__ . '/.env')) {
-	$dotenv = Dotenv\Dotenv::create(__DIR__);
-	$dotenv->load();
+if (file_exists('vendor/autoload.php')) {
+	require 'vendor/autoload.php';
+	if (file_exists(__DIR__ . '/.env')) {
+		$dotenv = Dotenv\Dotenv::create(__DIR__);
+		$dotenv->load();
+	}
 }
 
 $db_username = getenv("DB_USER");

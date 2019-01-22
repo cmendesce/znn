@@ -13,12 +13,13 @@ services:
       MYSQL_DATABASE: znn_data 
       MYSQL_USER: znn
       MYSQL_PASSWORD: znn_pass
-      
+  
   znn-high:
     image: cmendes/znn:high
     restart: always
     ports: 
       - "1080:80"
+      - "9180:9180"
     environment:
       DB_USER: znn
       DB_PASS: znn_pass
@@ -31,6 +32,7 @@ services:
     restart: always
     ports: 
       - "1081:80"
+      - "9181:9180"
     environment:
       DB_USER: znn
       DB_PASS: znn_pass
@@ -43,6 +45,7 @@ services:
     restart: always
     ports: 
       - "1082:80"
+      - "9182:9180"
     environment:
       DB_USER: znn
       DB_PASS: znn_pass

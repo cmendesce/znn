@@ -1,25 +1,26 @@
+<!DOCTYPE html>
 <html>
 <head>
 <title>ZNN News</title>
-<meta charset="UTF-8">
+<link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon"> 
+<style>
+    body {
+        font-family: Tahoma, Geneva, Verdana, sans-serif;
+    }
+</style>
 </head>
 <body>
-
 <?php include 'config.php';?>
-
 <?php
-
 if ($sleep != 0) {
 	sleep($sleep);
 }
-
 $result = query("SELECT COUNT(1) FROM news;");
 $row = $result->fetch();
 $news_count = $row[0];
-
 $result = query("SELECT news_id, news_title, news_text, news_img_cnt FROM news ORDER BY RAND() LIMIT 1;");
-
 $row = $result->fetch();
+
 $news_id = $row[0];
 $news_title = $row[1];
 $news_text = "<p>" . str_replace("\n\n", "</p><p>", $row[2]) . "</p>";
@@ -48,12 +49,8 @@ if ($fidelity == "text") {
 	}
 }
 
-$server_port = $_SERVER["SERVER_PORT"];
-$server_ip = $_SERVER["SERVER_ADDR"];
 echo "<hr>
 	<p>
-		<small>ZNN news service. Server by $server_ip:$server_port. </small>
-		<br />
 		<small>Fideliy level: <b>$fidelity</b>. Specified by env var 'FIDELITY' or 'FIDELITY_FILE'. If not set, default is high</small>
 	</p>
 	<p>
