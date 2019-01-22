@@ -19,6 +19,7 @@ $fidelity_file = getenv("FIDELITY_FILE");
 
 $conn = "mysql:host=$db_host;port=$db_port;dbname=$db_name";
 $pdo = new PDO($conn, $db_username, $db_password);
+$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 function query ($stm) {
 	$pdo =  $GLOBALS["pdo"];
@@ -26,7 +27,6 @@ function query ($stm) {
 	if (!$result) {
 		echo("connection info: $conn user: $db_username pass: $db_password");
 		die("Execute query error, because: ". print_r($pdo->errorInfo(), true));
-
 	}
 	return $result;
 }
