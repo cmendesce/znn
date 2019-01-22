@@ -1,7 +1,8 @@
-This, and other exemplars for self-adaptive systems, can be found at 
-[http://self-adaptive.org](https://www.hpi.uni-potsdam.de/giese/public/selfadapt/exemplars/)
-
 # The Znn Self-Adaptive Exemplar
+
+This, and other exemplars for self-adaptive systems, can be found at [http://self-adaptive.org](https://www.hpi.uni-potsdam.de/giese/public/selfadapt/exemplars/)
+
+[![Try in PWD](https://cdn.rawgit.com/play-with-docker/stacks/cff22438/assets/images/button.png)](http://play-with-docker.com?stack=https://raw.githubusercontent.com/cmendesce/znn/znn-refactoring/docker-compose.yml)
 
 ## Description
 
