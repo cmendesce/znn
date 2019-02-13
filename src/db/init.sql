@@ -37,7 +37,49 @@ CREATE TABLE `img` (
 
 LOCK TABLES `img` WRITE;
 /*!40000 ALTER TABLE `img` DISABLE KEYS */;
-INSERT INTO `img` VALUES (1,1,'01-i1-HD.jpg','01-i1-LD.jpg'),(2,1,'01-i2-HD.jpg','01-i2-LD.jpg'),(3,2,'02-i1-HD.jpg','02-i1-LD.jpg'),(4,2,'02-i2-HD.jpg','02-i2-LD.jpg'),(5,3,'03-i1-HD.jpg','03-i1-LD.jpg'),(6,5,'05-i1-HD.jpg','05-i1-LD.jpg'),(7,5,'05-i2-HD.jpg','05-i2-LD.jpg'),(8,6,'06-i1-HD.jpg','06-i1-LD.jpg'),(9,8,'08-i1-HD.jpg','08-i1-LD.jpg'),(10,9,'09-i1-HD.jpg','09-i1-LD.jpg'),(11,10,'10-i1-HD.jpg','10-i1-LD.jpg'),(12,10,'10-i2-HD.jpg','10-i2-LD.jpg'),(13,10,'10-i3-HD.jpg','10-i3-LD.jpg'),(14,10,'10-i4-HD.jpg','10-i4-LD.jpg');
+INSERT INTO `img` VALUES 
+( 1,  1,'01-i1-HD.jpg','01-i1-LD.jpg'),
+( 2,  1,'01-i2-HD.jpg','01-i2-LD.jpg'),
+( 3,  2,'02-i1-HD.jpg','02-i1-LD.jpg'),
+( 4,  2,'02-i2-HD.jpg','02-i2-LD.jpg'),
+( 5,  3,'03-i1-HD.jpg','03-i1-LD.jpg'),
+( 6,  5,'05-i1-HD.jpg','05-i1-LD.jpg'),
+( 7,  5,'05-i2-HD.jpg','05-i2-LD.jpg'),
+( 8,  6,'06-i1-HD.jpg','06-i1-LD.jpg'),
+( 9,  8,'08-i1-HD.jpg','08-i1-LD.jpg'),
+(10,  9,'09-i1-HD.jpg','09-i1-LD.jpg'),
+(11, 10,'10-i1-HD.jpg','10-i1-LD.jpg'),
+(12, 10,'10-i2-HD.jpg','10-i2-LD.jpg'),
+(13, 10,'10-i3-HD.jpg','10-i3-LD.jpg'),
+(14, 10,'10-i4-HD.jpg','10-i4-LD.jpg'),
+(15,  1,'01-i1-HD.jpg','01-i1-LD.jpg'),
+(16,  1,'01-i2-HD.jpg','01-i2-LD.jpg'),
+(17,  2,'02-i1-HD.jpg','02-i1-LD.jpg'),
+(18,  2,'02-i2-HD.jpg','02-i2-LD.jpg'),
+(19,  3,'03-i1-HD.jpg','03-i1-LD.jpg'),
+(20,  5,'05-i1-HD.jpg','05-i1-LD.jpg'),
+(21,  5,'05-i2-HD.jpg','05-i2-LD.jpg'),
+(22,  6,'06-i1-HD.jpg','06-i1-LD.jpg'),
+(23,  8,'08-i1-HD.jpg','08-i1-LD.jpg'),
+(24,  9,'09-i1-HD.jpg','09-i1-LD.jpg'),
+(25, 10,'10-i1-HD.jpg','10-i1-LD.jpg'),
+(26, 10,'10-i2-HD.jpg','10-i2-LD.jpg'),
+(27, 10,'10-i3-HD.jpg','10-i3-LD.jpg'),
+(28, 10,'10-i4-HD.jpg','10-i4-LD.jpg'),
+(29,  1,'01-i1-HD.jpg','01-i1-LD.jpg'),
+(30,  1,'01-i2-HD.jpg','01-i2-LD.jpg'),
+(31,  2,'02-i1-HD.jpg','02-i1-LD.jpg'),
+(32,  2,'02-i2-HD.jpg','02-i2-LD.jpg'),
+(33,  3,'03-i1-HD.jpg','03-i1-LD.jpg'),
+(34,  5,'05-i1-HD.jpg','05-i1-LD.jpg'),
+(35,  5,'05-i2-HD.jpg','05-i2-LD.jpg'),
+(36,  6,'06-i1-HD.jpg','06-i1-LD.jpg'),
+(37,  8,'08-i1-HD.jpg','08-i1-LD.jpg'),
+(38,  9,'09-i1-HD.jpg','09-i1-LD.jpg'),
+(39, 10,'10-i1-HD.jpg','10-i1-LD.jpg'),
+(40, 10,'10-i2-HD.jpg','10-i2-LD.jpg'),
+(41, 10,'10-i3-HD.jpg','10-i3-LD.jpg'),
+(42, 10,'10-i4-HD.jpg','10-i4-LD.jpg');
 /*!40000 ALTER TABLE `img` ENABLE KEYS */;
 UNLOCK TABLES;
 
