@@ -11,10 +11,15 @@
 </head>
 <body>
 <?php include 'config.php';?>
+
 <?php
+$sleep = getenv("SLEEP_TIME") ?: 0;
 if ($sleep != 0) {
 	sleep($sleep);
 }
+?>
+
+<?php
 $result = query("SELECT COUNT(1) FROM news;");
 $row = $result->fetch();
 $news_count = $row[0];
@@ -55,6 +60,9 @@ echo "<hr>
 	</p>
 	<p>
 		<small>Total news in database: $news_count. Printing news with ID $news_id (news has $news_img_cnt images).</small>
+	</p>
+	<p>
+		<small>Version 5af5119a</small>
 	</p>
 	";
 ?>
