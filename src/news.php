@@ -12,7 +12,7 @@
 			padding: 3rem 1.5rem;
 			text-align: justify;
 		}
-		h1, li {
+		h1 {
 			text-transform: uppercase
 		}
 		img {
@@ -20,7 +20,6 @@
 			height:350px;
 		}
 	</style>
-	
 </head>
 <body>
 <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
@@ -28,6 +27,9 @@
 	<div class="collapse navbar-collapse">
 		<ul class="navbar-nav mr-auto">
 			<li class="nav-item"><a class="nav-link" href="/news.php">Latest News</a></li>
+			<li class="nav-item"><a class="nav-link" href="/liveness.php">Liveness</a></li>
+			<li class="nav-item"><a class="nav-link" href="/readiness.php">Readiness</a></li>
+			<li class="nav-item"><a class="nav-link" target="_blank" href="https://github.com/cmendesce/znn">Github</a></li>
 		</ul>
 	</div>
 </nav>
@@ -49,7 +51,7 @@ $news_img_cnt = $row[3];
 echo "
 	<div class=\"starter-template\">
 		<h1>$news_id - $news_title</h1>
-		<article>$news_text</article>";
+		<article class=\"mb-2\">$news_text</article>";
 
 $fidelity = resolve_fidelity();
 if ($fidelity == "high") {
