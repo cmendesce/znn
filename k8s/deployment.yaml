@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: znn
+  labels:
+    app: znn
+spec:
+  selector:
+    matchLabels:
+      app: znn
+  template:
+    metadata:
+      labels:
+        app: znn
+    spec:
+      volumes:
+        - name: shared-files
+          emptyDir: {}
+        - name: nginx-config-volume
+          configMap:
+            name: nginx-config
+      containers:
+        - image: cmendes/znn:high
+          name: znn
+          imagePullPolicy: Always
+          env:
+          - name: DB_HOST
+            value: "kube-znn-db"
+          - name: DB_NAME
+            value: "znn"
+          - name: DB_PASS
+            value: "znn_pass"
+          volumeMounts:
+            - name: shared-files
+              mountPath: /var/www/html
+          lifecycle:
+            postStart:
+              exec:
+                command: ["/bin/sh", "-c", "cp -r /www/. /var/www/html"]
+        - image: nginx:1.17-alpine
+          name: nginx
+          volumeMounts:
+            - name: shared-files
+              mountPath: /var/www/html
+            - name: nginx-config-volume
+              mountPath: /etc/nginx/nginx.conf
+              subPath: nginx.conf
+          ports:
+          - name: http
+            containerPort: 80

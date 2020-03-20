@@ -1,23 +1,38 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>ZNN News</title>
-<link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon"> 
-<style>
-    body {
-        font-family: Tahoma, Geneva, Verdana, sans-serif;
-    }
-</style>
+	<title>ZNN News</title>
+	<meta charset="UTF-8">
+	<link href="https://getbootstrap.com/docs/4.4/dist/css/bootstrap.min.css" rel="stylesheet">
+	<style>
+		body {
+			padding-top: 3rem;
+		}
+		.starter-template {
+			padding: 3rem 1.5rem;
+			text-align: justify;
+		}
+		h1, li {
+			text-transform: uppercase
+		}
+		img {
+			width:350px; 
+			height:350px;
+		}
+	</style>
+	
 </head>
 <body>
-<?php include 'config.php';?>
+<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+	<a class="navbar-brand" href="#">ZNN</a>
+	<div class="collapse navbar-collapse">
+		<ul class="navbar-nav mr-auto">
+			<li class="nav-item"><a class="nav-link" href="/news.php">Latest News</a></li>
+		</ul>
+	</div>
+</nav>
 
-<?php
-$sleep = getenv("SLEEP_TIME") ?: 0;
-if ($sleep != 0) {
-	sleep($sleep);
-}
-?>
+<?php include 'config.php';?>
 
 <?php
 $result = query("SELECT COUNT(1) FROM news;");
@@ -28,43 +43,31 @@ $row = $result->fetch();
 
 $news_id = $row[0];
 $news_title = $row[1];
-$news_text = "<p>" . str_replace("\n\n", "</p><p>", $row[2]) . "</p>";
+$news_text = str_replace("\n\n", " ", $row[2]);
 $news_img_cnt = $row[3];
 
 echo "
-	<h1>$news_id - $news_title</h1>
-	<article>$news_text</article>
-	<hr>";
+	<div class=\"starter-template\">
+		<h1>$news_id - $news_title</h1>
+		<article>$news_text</article>";
 
 $fidelity = resolve_fidelity();
-if ($fidelity == "text") {
-	echo "<p>No images served in text fidelity mode.</p>";
+if ($fidelity == "high") {
+	echo "<div class=\"alert alert-info\">ZNN is running in <strong>HIGH</strong> mode</div>";
+	$img_field = "img_high_res";
+} else if ($fidelity == "low") {
+	echo "<div class=\"alert alert-warning\">ZNN is running in <strong>LOW</strong> mode</div>";
+	$img_field = "img_low_res";
 } else {
-	if ($fidelity == "high") {
-		$img_field = "img_high_res";
-	} else {
-		$img_field = "img_low_res";
-	}
-	$result = query("SELECT img_id, $img_field FROM img WHERE news_id = $news_id ORDER BY img_id;");
-	for ($i = 0; $i < $news_img_cnt; $i++) {
-		$row = $result->fetch();
-		echo "<p><img src=\"images/" . $row[1] . "\"/>";
-		echo "<br>";
-		echo "<small>Image " . $row[0] . ", name = " . $row[1] . "</small></p>";
-	}
+	echo "<div class=\"alert alert-dark\">ZNN is running in <strong>TEXT</strong> mode</div>";
 }
 
-echo "<hr>
-	<p>
-		<small>Fideliy level: <b>$fidelity</b>. Specified by env var 'FIDELITY' or 'FIDELITY_FILE'. If not set, default is high</small>
-	</p>
-	<p>
-		<small>Total news in database: $news_count. Printing news with ID $news_id (news has $news_img_cnt images).</small>
-	</p>
-	<p>
-		<small>Version 5af5119a</small>
-	</p>
-	";
+$result = query("SELECT img_id, $img_field FROM img WHERE news_id = $news_id ORDER BY img_id;");
+for ($i = 0; $i < $news_img_cnt; $i++) {
+	$row = $result->fetch();
+	echo "<img class=\"img-thumbnail rounded mr-1\" src=\"" . $row[1] . "\"/>";
+}
+echo "</div>"
 ?>
 
 </body>

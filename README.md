@@ -4,6 +4,12 @@ This, and other exemplars for self-adaptive systems, can be found at [http://sel
 
 [![Try in PWD](https://cdn.rawgit.com/play-with-docker/stacks/cff22438/assets/images/button.png)](http://play-with-docker.com?stack=https://raw.githubusercontent.com/cmendesce/znn/znn-refactoring/docker-compose.yml)
 
+## Running on Docker
+..
+
+## Running on Kubernetes
+..
+
 ## Description
 
 Based on real sites like *cnn.com* and *RockyMountainNews.com*, Znn.com is a news service 

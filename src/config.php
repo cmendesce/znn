@@ -1,21 +1,11 @@
 <?php
 
-if (file_exists('vendor/autoload.php')) {
-	require 'vendor/autoload.php';
-	if (file_exists(__DIR__ . '/.env')) {
-		$dotenv = Dotenv\Dotenv::create(__DIR__);
-		$dotenv->load();
-	}
-}
-
-$db_username = getenv("DB_USER");
+$db_username = getenv("DB_USER") ?: "root";
 $db_password = getenv("DB_PASS");
 $db_name = getenv("DB_NAME");
 $db_host = getenv("DB_HOST");
-$db_port = getenv("DB_PORT");
-$sleep = getenv("SLEEP_TIME") ?: 0;
+$db_port = getenv("DB_PORT") ?: 3306;
 $fidelity = getenv("FIDELITY") ?: "high";
-$fidelity_file = getenv("FIDELITY_FILE");
 
 $conn = "mysql:host=$db_host;port=$db_port;dbname=$db_name";
 $pdo = new PDO($conn, $db_username, $db_password);
@@ -33,10 +23,6 @@ function query ($stm) {
 
 function resolve_fidelity() {
 	$fidelity = getenv("FIDELITY") ?: "high";
-	$fidelity_file = getenv("FIDELITY_FILE");
-	if (file_exists($fidelity_file)) {
-		$fidelity = file_get_contents($fidelity_file);
-	}
 	return $fidelity;
 }
 

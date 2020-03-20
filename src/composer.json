@@ -1,8 +1,0 @@
-{
-  "name": "ZNews",
-  "description": "Znn.com is a news service that serves multimedia news content to its customers.",
-  "require": {
-      "vlucas/phpdotenv": "^3.1",
-      "ext-pdo": "*"
-  }
-}
