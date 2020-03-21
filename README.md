@@ -4,6 +4,8 @@ Kube-ZNN is a deployment of the tradicional znn exemplar system for Kubernetes.
 
 ## Getting started
 
+Make sure you have access to a running Kubernetes cluster and the `kubectl` on your `PATH`. 
+
 Just run `kubectl apply -f .` in this folder and open [http://localhost:8080/news.php](http://localhost:8080/news.php) in your browser.
 
 ## Architecture
