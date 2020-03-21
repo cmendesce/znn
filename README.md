@@ -1,6 +1,8 @@
-# Kube-znn 
+# Kube-Znn 
 
-Kube-ZNN is a deployment of the tradicional znn exemplar system for Kubernetes. 
+Kube-Znn is a deployment of the tradicional Znn exemplar system for Kubernetes. 
+
+![https://travis-ci.com/cmendesce/znn.svg?branch=master](https://travis-ci.com/cmendesce/znn.svg?branch=master)
 
 ## Getting started
 
@@ -13,13 +15,12 @@ Just run `kubectl apply -f .` in this folder and open [http://localhost:8080/new
 ![kube-znn architecture](kube-znn-v2.jpg)
 
 ### Containers
-
-Each application is composed by two containers. 
-
+ 
+ ...
 
 #### How it works
 
-Znn and OpenResty share a volume called `shared-files`, mounted at `/var/www/html` in both containers. After the znn container has started, it's necessary to copy the `php` files from the container's local filesystem `/www` to that shared volume. On the OpenResty side, in its configuration file, the mounted folder represents the root folder which is served on port 80.
+Znn and OpenResty® share a volume called `shared-files`, mounted at `/var/www/html` in both containers. After the Znn container has started, it's necessary to copy the `php` files from the container's local filesystem `/www` to that shared volume. On the OpenResty® side, in its configuration file, the mounted folder represents the root folder which is served on port 80.
 
 **ZNN**
 
