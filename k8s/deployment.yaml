@@ -1,17 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: znn
+  name: kube-znn
   labels:
-    app: znn
+    app: kube-znn
 spec:
   selector:
     matchLabels:
-      app: znn
+      app: kube-znn
   template:
     metadata:
       labels:
-        app: znn
+        app: kube-znn
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9145"
     spec:
       volumes:
         - name: shared-files
@@ -19,10 +22,12 @@ spec:
         - name: nginx-config-volume
           configMap:
             name: nginx-config
+        - name: nginx-exporter-volume
+          configMap:
+            name: nginx-exporter
       containers:
         - image: cmendes/znn:high
           name: znn
-          imagePullPolicy: Always
           env:
           - name: DB_HOST
             value: "kube-znn-db"
@@ -33,18 +38,26 @@ spec:
           volumeMounts:
             - name: shared-files
               mountPath: /var/www/html
+          ports:
+          - name: fpm
+            containerPort: 9000
           lifecycle:
             postStart:
               exec:
                 command: ["/bin/sh", "-c", "cp -r /www/. /var/www/html"]
-        - image: nginx:1.17-alpine
+        - image: openresty/openresty:alpine-fat
           name: nginx
           volumeMounts:
             - name: shared-files
               mountPath: /var/www/html
             - name: nginx-config-volume
-              mountPath: /etc/nginx/nginx.conf
+              mountPath: /usr/local/openresty/nginx/conf/nginx.conf
               subPath: nginx.conf
+            - name: nginx-exporter-volume
+              mountPath: /etc/nginx/nginx-lua-prometheus/prometheus.lua
+              subPath: prometheus.lua
           ports:
           - name: http
             containerPort: 80
+          - name: exporter
+            containerPort: 9145
