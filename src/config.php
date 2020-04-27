@@ -1,9 +1,9 @@
 <?php
 
 $db_username = getenv("DB_USER") ?: "root";
-$db_password = getenv("DB_PASS");
-$db_name = getenv("DB_NAME");
-$db_host = getenv("DB_HOST");
+$db_password = getenv("DB_PASS") ?: "root";
+$db_name = getenv("DB_NAME") ?: "znn";
+$db_host = getenv("DB_HOST") ?: "127.0.0.1";
 $db_port = getenv("DB_PORT") ?: 3306;
 $fidelity = getenv("FIDELITY") ?: "high";
 
