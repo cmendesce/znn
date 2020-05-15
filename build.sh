@@ -1,5 +1,6 @@
 #!/bin/bash
 
-docker build --build-arg BUILDTIME_FIDELITY=text -t cmendes/znn:text .
-docker build --build-arg BUILDTIME_FIDELITY=low -t cmendes/znn:low .
-docker build --build-arg BUILDTIME_FIDELITY=high -t cmendes/znn:high .
+for i in '20k' '200k' '400k' '600k' '800k' 'text'; do
+    docker build --build-arg BUILDTIME_FIDELITY=$i -t cmendes/znn:$i .
+    docker push cmendes/znn:$i
+done

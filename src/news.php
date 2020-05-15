@@ -54,25 +54,25 @@ echo "
 <article class=\"mb-2\">$news_text</article>";
 
 $fidelity = resolve_fidelity();
+
+$start = microtime(true);
+
+
 if ($fidelity == "text") {
 	echo "<div class=\"alert alert-dark\">ZNN is running in <strong>TEXT</strong> mode</div>";
 } else {
-	if ($fidelity == "high") {
-		echo "<div class=\"alert alert-info\">ZNN is running in <strong>HIGH</strong> mode</div>";
-		$img_field = "img_high_res";
-	} else if ($fidelity == "low") {
-		echo "<div class=\"alert alert-warning\">ZNN is running in <strong>LOW</strong> mode</div>";
-		$img_field = "img_low_res";
-	}
-	$result = query("SELECT img_id, $img_field FROM img WHERE news_id = $news_id ORDER BY img_id;");
+	echo "<div class=\"alert alert-dark\">Image size is about <strong> $fidelity </strong></div>";
+	$result = query("SELECT img_id, img_res FROM img WHERE news_id = $news_id ORDER BY img_id;");
 	for ($i = 0; $i < $news_img_cnt; $i++) {
 		$row = $result->fetch();
-		$img = file_get_contents($row[1]);
+		$img = file_get_contents('/www/' . $row[1]);
 		// Encode the image string data into base64 
 		$img_data = base64_encode($img);
 		echo "<img class=\"img-thumbnail rounded mr-1\" src=\"data:image/jpg;base64," . $img_data . "\"/>";
 	}
 }
+$time_elapsed_secs = microtime(true) - $start;
+echo "<p>built in $time_elapsed_secs seconds</p>";
 echo "</div>";
 ?>
 

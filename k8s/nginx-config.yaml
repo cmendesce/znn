@@ -4,29 +4,34 @@ metadata:
   name: nginx-config
 data:
   nginx.conf: |
-    worker_processes  1;
+    worker_processes auto;
     events {
-      worker_connections  1024;
+      worker_connections  512;
     }
     http {
       include       mime.types;
       default_type  application/octet-stream;
 
       lua_shared_dict prometheus_metrics 10M;
-      lua_package_path "/etc/nginx/nginx-lua-prometheus/prometheus.lua";
-      init_by_lua '
+      lua_package_path "/etc/nginx/nginx-lua-prometheus/?.lua;;";
+      
+      init_by_lua_block {
         prometheus = require("prometheus").init("prometheus_metrics")
-        metric_requests = prometheus:counter(
-          "nginx_http_requests_total", "Number of HTTP requests", {"host", "status"})
-        metric_latency = prometheus:histogram(
-          "nginx_http_request_duration_seconds", "HTTP request latency", {"host"})
-        metric_connections = prometheus:gauge(
-          "nginx_http_connections", "Number of HTTP connections", {"state"})
-      ';
-      log_by_lua '
+        metric_requests = prometheus:counter("requests_total",
+          "Number of HTTP requests", {"host", "status"})
+        metric_latency = prometheus:histogram("request_duration_seconds",
+          "HTTP request latency", {"host"},
+          {0.005, 0.01, 0.02, 0.03, 0.05, 0.075, 0.1, 0.2, 0.3, 0.4, 0.5, 0.75,
+          1, 1.5, 2, 3, 4, 5, 10, 15, 30, 45, 60, 90, 120, 180, 300})
+        metric_connections = prometheus:gauge("connections",
+          "Number of HTTP connections", {"state"})
+      }
+      init_worker_by_lua_block { prometheus:init_worker(0.4) }
+      log_by_lua_block {
         metric_requests:inc(1, {ngx.var.server_name, ngx.var.status})
-        metric_latency:observe(tonumber(ngx.var.request_time), {ngx.var.server_name})
-      ';
+        metric_latency:observe(tonumber(ngx.var.request_time),
+                               {ngx.var.server_name})
+      }
 
       client_body_temp_path /var/run/openresty/nginx-client-body;
       proxy_temp_path       /var/run/openresty/nginx-proxy;
@@ -37,21 +42,19 @@ data:
       sendfile        on;
       #tcp_nopush     on;
 
-      #keepalive_timeout  0;
+      # keepalive_timeout  0;
       keepalive_timeout  65;
       
       # include /etc/nginx/conf.d/*.conf;
       server {
         listen 9145;
-        # allow 192.168.0.0/16;
-        # deny all;
         location /metrics {
-          content_by_lua '
-            metric_connections:set(ngx.var.connections_reading, {"reading"})
-            metric_connections:set(ngx.var.connections_waiting, {"waiting"})
-            metric_connections:set(ngx.var.connections_writing, {"writing"})
-            prometheus:collect()
-          ';
+            content_by_lua_block {
+                metric_connections:set(ngx.var.connections_reading, {"reading"})
+                metric_connections:set(ngx.var.connections_waiting, {"waiting"})
+                metric_connections:set(ngx.var.connections_writing, {"writing"})
+                prometheus:collect()
+            }
         }
       }
 
@@ -61,7 +64,7 @@ data:
         
         # Set nginx to serve files from the shared volume!
         root /var/www/html;
-        server_name _;
+        server_name znn;
         location / {
           try_files $uri $uri/ =404;
         }
@@ -70,11 +73,6 @@ data:
           fastcgi_param REQUEST_METHOD $request_method;
           fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
           fastcgi_pass 127.0.0.1:9000;
-        }
-        location /stub_status {
-          stub_status;
-          # allow 127.0.0.1;
-          # deny all;
         }
       }
     }
