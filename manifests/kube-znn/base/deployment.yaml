@@ -22,11 +22,8 @@ spec:
         - name: nginx-config-volume
           configMap:
             name: nginx-config
-        - name: nginx-exporter-volume
-          configMap:
-            name: nginx-exporter
       containers:
-        - image: cmendes/znn:text
+        - image: cmendes/znn:600k
           name: znn
           env:
           - name: DB_HOST
@@ -53,13 +50,13 @@ spec:
             - name: nginx-config-volume
               mountPath: /usr/local/openresty/nginx/conf/nginx.conf
               subPath: nginx.conf
-            - name: nginx-exporter-volume
+            - name: nginx-config-volume
               mountPath: /etc/nginx/nginx-lua-prometheus/prometheus_resty_counter.lua
               subPath: prometheus_resty_counter.lua
-            - name: nginx-exporter-volume
+            - name: nginx-config-volume
               mountPath: /etc/nginx/nginx-lua-prometheus/prometheus_keys.lua
               subPath: prometheus_keys.lua
-            - name: nginx-exporter-volume
+            - name: nginx-config-volume
               mountPath: /etc/nginx/nginx-lua-prometheus/prometheus.lua
               subPath: prometheus.lua
           ports:
